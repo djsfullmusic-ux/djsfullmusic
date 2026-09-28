@@ -5,19 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DJS FULL MUSIC ONLINE</title>
     <link rel="manifest" href="manifest.json">
-    <!-- Redirección HTML forzada a tu blog real -->
-    <meta http-equiv="refresh" content="0;url=https://djsfullmusicradio.blogspot.com/"/>
 </head>
 <body style="background: #002fa7; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Arial, sans-serif; color: white;">
-    <div style="text-align: center;">
-        <img src="https://googleusercontent.com" style="width: 80px; height: 80px; border-radius: 50%;" alt="Logo DJS">
-        <p style="margin-top: 15px; font-weight: bold; font-size: 16px;">Cargando DJS FULL MUSIC...</p>
+
+    <div style="text-align: center; padding: 20px;">
+        <!-- Tu Logotipo Redondo Oficial -->
+        <img src="https://googleusercontent.com" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid white; box-shadow: 0px 4px 15px rgba(0,0,0,0.5);" alt="Logo DJS">
+        
+        <h1 style="font-size: 22px; margin-top: 20px; letter-spacing: 1px;">DJS FULL MUSIC ONLINE</h1>
+        <p style="font-size: 14px; opacity: 0.8; margin-bottom: 30px;">Instala la App Oficial o escucha en vivo las 24 horas</p>
+
+        <!-- Botón de instalación que Chrome y Android reconocen obligatoriamente -->
+        <button id="btnInstalar" style="display: none; background: #fff; color: #002fa7; border: none; padding: 14px 28px; font-weight: bold; border-radius: 30px; font-size: 16px; cursor: pointer; box-shadow: 0px 5px 15px rgba(0,0,0,0.3); transition: 0.3s; margin-bottom: 15px; width: 100%; max-width: 280px;">
+            📥 INSTALAR APLICACIÓN
+        </button>
+
+        <br>
+        
+        <!-- Enlace alternativo directo al blog público -->
+        <a href="https://djsfullmusicradio.blogspot.com/" style="color: white; text-decoration: underline; font-size: 14px; opacity: 0.9; display: inline-block; margin-top: 10px;">
+            Continuar al sitio web en línea
+        </a>
     </div>
+
     <script>
+        // Registrar el motor PWA obligatorio
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
-        window.location.href = "https://djsfullmusicradio.blogspot.com/";
+
+        let eventoInstalacion;
+        const botonInstalar = document.getElementById('btnInstalar');
+
+        // Captura la orden de instalación del navegador antes de que se oculte
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); // Evita que el navegador lo esconda
+            eventoInstalacion = e; // Guarda el evento
+            botonInstalar.style.display = 'inline-block'; // MUESTRA EL BOTÓN EN PANTALLA SÍ O SÍ
+        });
+
+        // Acción al presionar el botón de Instalar
+        botonInstalar.addEventListener('click', async () => {
+            if (eventoInstalacion) {
+                eventoInstalacion.prompt(); // Abre la ventana nativa de instalación
+                const { outcome } = await eventoInstalacion.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('El usuario instaló la app');
+                }
+                eventoInstalacion = null;
+                window.location.href = "https://djsfullmusicradio.blogspot.com/";
+            }
+        });
+
+        // Si ya está instalada o es un iPhone (que maneja instalación manual), lo envía directo en 4 segundos si no presiona nada
+        setTimeout(() => {
+            if (!eventoInstalacion) {
+                window.location.href = "https://djsfullmusicradio.blogspot.com/";
+            }
+        }, 4000);
     </script>
 </body>
 </html>
