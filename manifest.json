@@ -1,0 +1,15 @@
+{
+  "name": "DJS FULL MUSIC ONLINE",
+  "short_name": "DJS FULL MUSIC",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#002fa7",
+  "theme_color": "#002fa7",
+  "icons": [
+    {
+      "src": "https://googleusercontent.com",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
